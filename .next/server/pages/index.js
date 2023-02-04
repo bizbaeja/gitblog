@@ -53,7 +53,7 @@ const RecentPosts = ({ posts  })=>{
 
 /***/ }),
 
-/***/ 7554:
+/***/ 8970:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -104,9 +104,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5675);
 /* harmony import */ var next_image__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_image__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _components_RecentPosts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(834);
-/* harmony import */ var _data_metadata__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2225);
+/* harmony import */ var _data_metadata__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7322);
 /* harmony import */ var _contentlayer_generated__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5390);
-/* harmony import */ var _constant_background__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7554);
+/* harmony import */ var _constant_background__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8970);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_contentlayer_generated__WEBPACK_IMPORTED_MODULE_5__]);
 _contentlayer_generated__WEBPACK_IMPORTED_MODULE_5__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
 
