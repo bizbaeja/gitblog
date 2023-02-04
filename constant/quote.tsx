@@ -1,8 +1,13 @@
-export const quotes = [
+type Quote = {
+  quote: string;
+  author: string;
+};
+
+export const quotes: Quote[] = [
   {
     quote:
       '공포로 인해 타협하지 말 것이며, 남이 나에게 타협하는 것을 두려워하지도 말라',
-    autor: '케네디'
+    author: '케네디'
   },
   {
     quote: '남자란, 말하며 접근할 때는 봄이지만 결혼해 버리면 겨울이다',
@@ -218,4 +223,4 @@ export const quotes = [
   }
 ];
 
-export const todaysQoute = quotes[Math.floor(Math.random() * quotes.length)];
+export const todaysQuote = quotes[Math.floor(Math.random() * quotes.length)];
