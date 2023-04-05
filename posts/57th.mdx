@@ -1,0 +1,187 @@
+---
+title: ReactJS 와 JSX의 장점을 알아봅시다.
+date: 2023-04-05
+description: React.js
+---
+
+> 클릭을 세는 앱을 만듬으로서 React.js와 JavaScript 사이의 차이점을 느껴보자. 왜 리액트가 더 좋은지 설명할 수 있는가?
+
+1. React JS 는 interactive 의 원동력이다.
+2. ReactDOM 은 React element 를 가져다가 HTML로 바꾸는 역할을 한다.
+
+### Vanilla JS 코드
+
+body(html)에 일일히 span 과 button등 element 등이 작성되어있다.
+
+```jsx
+<!DOCTYPE html>
+<html>
+  <body>
+    <span>Total clicks:0</span>
+    <button id="btn">Click me!</button>
+  </body>
+  <script>
+    window.onload = function () {
+      let counter = 0;
+      const button = document.getElementById("bnt");
+      const span = document.querySelector("span");
+      function handleClick() {
+        counter = counter + 1;
+        span.innerText = `Total clicks ${counter}`;
+      }
+      button.addEventListener("click", handleClick);
+    };
+  </script>
+</html>
+```
+
+### Reacj.js Element 를 생성하는 방법과 Vanilla JS Element 를 생성하는 방법의 차이를 설명할 수 있는가?
+
+이 두가지 패키지를 import 함으로써 body(html)에 element를 생성시킬 수 있는 라이브러리가 설치된 것이라고 보면 된다. 콘솔에 span 을 작성하면, 아래와 같이 나온다.
+
+```jsx
+<script src="http://unpkg.com/react@latest/umd/react.production.min.js"></script>
+  <script src="http://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
+<script>
+    const root = document.getElementById("root");
+    const span = React.createElement("span");
+    ReactDOM.render(span, root);
+  </script>
+```
+
+![span.png](/57/span.png)
+
+![span2.png](/57/span2.png)
+
+<aside>
+💡 알게된것
+
+</aside>
+
+- 리액트를 사용하면 자바스크립트에 작성하는 것만으로도 html 에 element가 생성되는 효과를 누릴 수 있다. 바닐라 자바스크립트는 HTML element를 만들고 JS에서 이벤트를 연결해주어야 하는 불편함이 있지만 리액트는 그럴 필요가 없다.
+
+## 이벤트 감지는 리액트에서 무엇을 의미하는가?
+
+vanillaJS 에서는 html에 요소 만들어야지 , 스크립트에 이벤트리스너 만들어야지, 요소불러와야지 , 해야할게 산더미다. 그러나 리액트에서는 ‘이벤트를 감지’하는것만 이슈다.
+
+내가 요소를 정의내리면 그 요소에 어떤 이벤트를 ‘감지시킬지를 정하는 것’ 이다 예를들면 `onClick` 이벤트와 같이 “나는 클릭이벤트가 일어날 때마나 콘솔에 I,m clicked 라는 메시지를 띄울거야 ”를 정해주는 것이다. 이걸 코드로 만들어주는 라이브러리가 리액트라는 것이다.
+
+1. 코드의 첫 번째 줄은 html 요소를 불러오는 것을 의미한다.
+2. 코드의 두 번째 줄은 `React.CreateElement()` 의 첫 번째 인자로 “`h3`”요소를 만들것이고, 두 번째 인자는 첫 번째 인자의 속성을 의미한다. 세 번째 인자는 첫 번째 인자가 나타내는 메시지를 뜻한다.
+3. 코드의 세번째 단락은 “button” 요소를 만들 것이고, onClick 이벤트를 감지했을 때, 콘솔에 “I’m clicked 라는 메시지를 띄우겠다는 뜻이다.”, 세번째 인자로 “Click me” 라고 써서 버튼에 나타냈다.
+4. 마지막 단락은 container 라는 변수를 정의했다. “`div`” 에 나타날 글자를 배열로 받아 `[h3, btn]` 을 나타내게 했다.
+5. 마지막 코드줄은 `ReactDOM.render()`를 사용하여 첫 번째 인자로 변수 container를 렌더링하고 두번째로는 변수 root 를 렌더링 시켰다.
+
+```jsx
+<script>
+    const root = document.getElementById("root");
+    const h3 = React.createElement(
+      "h3",
+      { onMouseEnter: () => console.log("mouse enter") },
+      "Hello World"
+    );
+    const btn = React.createElement(
+      "button",
+      { onClick: () => console.log("Im clicked") },
+      "Click me"
+    );
+    const container = React.createElement("div", null, [h3, btn]);
+    ReactDOM.render(container, root);
+  </script>
+
+```
+
+# JSX
+
+```jsx
+<script>
+    const root = document.getElementById("root");
+    const h3 = React.createElement(
+      "h3",
+      { onMouseEnter: () => console.log("mouse enter") },
+      "Hello World"
+    );
+    const btn = React.createElement(
+      "button",
+      { onClick: () => console.log("Im clicked") },
+      "Click me"
+    );
+    const container = React.createElement("div", null, [h3, btn]);
+    ReactDOM.render(container, root);
+  </script>
+
+```
+
+위의 코드는 createElement 로 작성한 코드다. 아래의 코드는 JSX로 작성한 코드다. 그러나 실행시켜보면 `Uncaught SyntaxError SyntaxError: Unexpected token '<'`에러가 나타날 것이다. 왜냐하면 jsx 는 브라우저가 이해하지 못하는 문법이기 때문에 babel을 이용해 코드를 브라우저가 이해할 수 있는 형태로 변환시켜주어야 한다.
+
+```jsx
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="http://unpkg.com/react@latest/umd/react.production.min.js"></script>
+  <script src="http://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
+  <script>
+    const root = document.getElementById("root");
+    const Title = (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+        Hello I'm a title
+      </h3>
+    );
+    const Button = (
+      <button
+        style={{
+          backgroundColor: "tomato",
+        }}
+        id="btn"
+        onClick={() => console.log("I'm clicked")}
+      >
+        Click me
+      </button>
+    );
+    const container = React.createElement("div", null, [Title, Button]);
+    ReactDOM.render(container, root);
+  </script>
+</html>
+```
+
+## JSX 의 장점을 설명할 수 있나요?
+
+<aside>
+💡 아래의 코드는 크게 Title , Button, Container 로 나뉠 수 있다. 바로 ‘나뉠 수’ 있다는 점과 Container 를 보면 한눈에 보기 쉽게, Title 컴포넌트와  Button 컴포넌트가 나열되어있는 것을 볼 수 있다. 이것을 장점이라고 볼 수 있다.
+
+</aside>
+
+**어플리케이션을 여러가지 작은 요소로 나누어 관리할 수 있다.**
+
+**JSX는 함수형 컴포넌트여야 한다**
+
+```
+<script type="text/babel">
+    const root = document.getElementById("root");
+    const **Title** = () => (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+        Hello I'm a title
+      </h3>
+    );
+    const **Button** = () => (
+      <button
+        style={{
+          backgroundColor: "tomato",
+        }}
+        id="btn"
+        onClick={() => console.log("I'm clicked")}
+      >
+        Click me
+      </button>
+    );
+    const **Container** = (
+      <div>
+        <**Title />
+        <Button />**
+      </div>
+    );
+    ReactDOM.render(Container, root);
+  </script>
+```
