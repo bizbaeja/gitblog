@@ -1,12 +1,25 @@
 import Link from "next/link";
+interface BlogPostProps {
+  date: string;
+  title: string;
+  des: string;
+  blog: string;
+}
 
-const BlogPost = ({ date, title, des, slug }) => {
+const BlogPost: React.FC<BlogPostProps> = ({ date, title, des, blog}) => {
   return (
-    <Link href={`/blog/${slug}`} passHref>
+    <Link href={`/blog/${blog}`} passHref>
       <a className="w-full my-7 hover:-translate-x-1.5">
-        <div className="font-medium text-xs text-gray-400">{date}</div>
-        <div className={`font-extrabold text-2xl mt-2`}>{title}</div>
-        <div className={`font-medium text-gray-600 text-xl mt-1`}>{des}</div>
+
+        <div className={`font-extrabold text-2xl mt-2`}>
+        <div>
+      <h2>{title}</h2>
+      <p>{date}</p>
+      <p>{des}</p>
+      <p>{blog}</p>
+    </div>
+        </div>
+      
       </a>
     </Link>
   );

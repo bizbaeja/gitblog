@@ -8,7 +8,7 @@ const RecentPosts = ({ posts }) => {
         {posts.slice(0, 10).map((posts) => (
           <Link
             key={posts._id}
-            href={`/blog/${posts._raw.flattenedPath}`}
+            href={`/til/${posts._raw.flattenedPath}`}
             passHref
           >
             <a className="mt-5">

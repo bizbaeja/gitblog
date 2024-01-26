@@ -3,12 +3,12 @@ import Container from '../components/Container';
 import Image from 'next/image';
 import RecentPosts from '../components/RecentPosts';
 import metadata from '../data/metadata';
-import { allPosts } from '../.contentlayer/generated';
+import { allBlogPosts, allTilPosts} from '../.contentlayer/generated';
 import { InferGetStaticPropsType } from 'next';
 
 import { chosenImage } from '../constant/background';
 
-const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = ({ blogposts,tilposts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container>
       <div className={`my-5 w-full`}>
@@ -33,19 +33,23 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </span>
           </span>
         </div>
-        <RecentPosts posts={posts} />
+        <RecentPosts posts={tilposts} />
       </div>
     </Container>
   );
 };
 
 export const getStaticProps = async () => {
-  const posts = allPosts.sort(
+  const blogposts = allBlogPosts.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
+  const tilposts = allTilPosts.sort(
+    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
+  );
+  
   return {
     props: {
-      posts
+      blogposts,tilposts
     }
   };
 };

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import metadata from '../data/metadata';
 import Nav from './Nav';
 import SideBar from './SideBar';
-
+import Link from 'next/link';
 type Props = {
   children: ReactNode;
   customMeta?: any;
@@ -28,7 +28,8 @@ const Container = ({ customMeta, children }: Props) => {
       <header
         className={`w-full max-w-3xl flex flex-row justify-between items-center my-1`}
       >
-        <div className={`flex flex-row items-center`}>
+       <Link href="/">
+       <div className={`flex flex-row items-center`}>
           <Image
             src={`/sherlock.jpeg`}
             alt="로고"
@@ -40,7 +41,7 @@ const Container = ({ customMeta, children }: Props) => {
           <span className={`mx-2 font-extralight text-lg`}>
             {metadata.title}
           </span>
-        </div>
+        </div></Link> 
         <Nav />
         {/* <SideBar /> */}
       </header>
