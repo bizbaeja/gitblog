@@ -47,6 +47,7 @@ export const getStaticProps = async () => {
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
   
+  
   return {
     props: {
       blogposts,tilposts

@@ -1,0 +1,143 @@
+---
+title: TS 공부 블로그에 적용하기
+date: 2024-01-26
+description: 조금씩 늘어가는 실력!
+---
+
+#
+
+![blog.png](/blog/ts/blog.png)
+
+## 1. contentlayer.config.js 재설정
+
+```jsx
+// 기존 코드
+export const allPosts = defineDocumentType(() => ({
+  name: 'Posts',
+  contentType: 'mdx',
+  fields: {
+    title: { type: 'string', required: true },
+    date: { type: 'string', required: true },
+    description: { type: 'string', required: false }
+  }
+}));
+
+export default makeSource({
+  contentDirPath: 'posts',
+  documentTypes: [allPosts],
+  mdx: {
+    remarkPlugins: [],
+    rehypePlugins: []
+  }
+});
+```
+
+```jsx
+// 바꾼 코드
+import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+
+export const blogPosts = defineDocumentType(() => ({
+  name: 'blogPosts',
+  contentType: 'mdx',
+  filePathPattern: `_blog/**/*.mdx`, // '_blog' 폴더 내의 mdx 파일 참조
+  fields: {
+    title: { type: 'string', required: true },
+    date: { type: 'string', required: true },
+    description: { type: 'string', required: false }
+  }
+}));
+
+export const tilPosts = defineDocumentType(() => ({
+  name: 'tilPosts',
+  contentType: 'mdx',
+  filePathPattern: `_til/**/*.mdx`, // '_til' 폴더 내의 mdx 파일 참조
+  fields: {
+    title: { type: 'string', required: true },
+    date: { type: 'string', required: true },
+    description: { type: 'string', required: false }
+  }
+}));
+
+export default makeSource({
+  contentDirPath: 'posts', // 상위 폴더 'posts' 지정
+  documentTypes: [blogPosts, tilPosts],
+  mdx: {
+    remarkPlugins: [],
+    rehypePlugins: []
+  }
+});
+```
+
+> 설명
+> .`contentlayer` 에 `generated` 폴더의 하위 폴더로 만들고 싶은 콘텐츠의 경로를 설정해주는 타입스크립트 파일. 기존의 `allPosts` 로 모든 mdx 파일들이 반환되었다면 코드를 고친 후에는 `blogPosts` 와 `tilPosts` 로 경로가 나뉘어 각각 `filePathPattern` 을 참조한 mdx 파일을 반환하게 된다.
+> 다만, `makeSource` 의 `contentDirPath` 에는 상위 폴더만 지정해주면 된다.
+
+## 2. pages.의 index.tsx 생성
+
+![index.png](/blog/ts/index.png)
+
+<aside>
+💡 기존에는 allPosts 로 모든 게시물들이 보여졌기 때문에 index.tsx 도 하나밖에 필요하지 않았지만, 지금은 라우트도 분리되었기 때문에, 각 라우트 별로  index.tsx 를 생성해주었다.
+각 페이지는 아래의 코드와 같이 `‘contentlayer’`를 참조한다.
+
+</aside>
+
+```jsx
+import type { NextPage } from 'next';
+import BlogPost from 'components/BlogPost';
+import Container from 'components/Container';
+import { allBlogPosts } from 'contentlayer/generated';
+import { InferGetStaticPropsType } from 'next';
+
+const Blog = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  return (
+    <Container>
+      <div className={`mt-10 flex flex-col`}>
+        {blog.map((blog) => (
+          <BlogPost
+            date={blog.date}
+            title={blog.title}
+            des={blog.description}
+            blog={blog._raw.flattenedPath}
+            key={blog._id}
+          />
+        ))}
+      </div>
+    </Container>
+  );
+};
+
+export const getStaticProps = async () => {
+  const blog = allBlogPosts.sort(
+    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
+  );
+
+  return {
+    props: {
+      blog
+    }
+  };
+};
+
+export default Blog;
+```
+
+## 3. trouble-shooting
+
+<aside>
+💡 위의 과정을 거친 후 `npm run dev` 를 재실행 하여 `contentslayer`  재생성을 시도했지만 실패한 사례
+
+</aside>
+
+```jsx
+User
+SyntaxError: /Users/aeong/Documents/NewAeong/gitblog/.next/server/pages-manifest.json: Unexpected non-whitespace character after JSON at position 217
+This error happened while generating the page. Any console logs will be displayed in the terminal window.
+```
+
+### 해결방법
+
+<aside>
+💡 기존의 캐시 때문에 발생하는 에러로, `.next` 폴더를 제거하고 `npm run dev` 를 실행하면 된다.
+
+</aside>

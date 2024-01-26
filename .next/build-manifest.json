@@ -35,10 +35,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/blog.js"
     ],
+    "/blog/[blog]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/blog/[blog].js"
+    ],
     "/til": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/til.js"
+    ],
+    "/til/[til]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/til/[til].js"
     ]
   },
   "ampFirstPages": []
