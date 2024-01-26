@@ -5,17 +5,17 @@ import Container from 'components/Container';
 import { allBlogPosts} from 'contentlayer/generated';
 import { InferGetStaticPropsType } from 'next';
 
-const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Blog = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container>
       <div className={`mt-10 flex flex-col`}>
-        {posts.map((post) => (
+        {blog.map((blog) => (
           <BlogPost
-            date={post.date}
-            title={post.title}
-            des={post.description}
-            blog={post._raw.flattenedPath}
-            key={post._id}
+            date={blog.date}
+            title={blog.title}
+            des={blog.description}
+            blog={blog._raw.flattenedPath}
+            key={blog._id}
           />
         ))}
       </div>
@@ -24,13 +24,13 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps = async () => {
-  const posts = allBlogPosts.sort(
+  const blog = allBlogPosts.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
 
   return {
     props: {
-      posts
+      blog
     }
   };
 };

@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Head from 'next/head';
 import metadata from '../data/metadata';
 import Nav from './Nav';
-import SideBar from './SideBar';
 import Link from 'next/link';
 type Props = {
   children: ReactNode;
@@ -43,7 +42,7 @@ const Container = ({ customMeta, children }: Props) => {
           </span>
         </div></Link> 
         <Nav />
-        {/* <SideBar /> */}
+   
       </header>
       <main className={`w-full max-w-3xl`}>{children}</main>
       <footer className={`w p-3`}>만든이 : 배자현</footer>

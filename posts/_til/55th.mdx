@@ -1,0 +1,238 @@
+---
+title: foreach 반복문 루프 만들기 연습
+date: 2023-04-03
+description: C#
+---
+
+# 파일 다운로드 받기 & 본문 해석
+
+[](https://github.com/MicrosoftLearning/Guided-project-foreach-if-array-CSharp/archive/refs/heads/main.zip)
+
+# Visual Studio Code 에서 Starter 폴더의 Program.cs 파일 열기
+
+> 폴더에 마우스 우클릭 후 통합터미널에서 열기
+> 그 다음 터미널에서 `dotnet build`합니다 `dotnet run` 하여 코드가 잘 동작하는지 확인합니다.
+
+```csharp
+//애플리케이션 산출물
+Student         Grade
+
+Sophia:         92.2    A-
+Andrew:         89.6    B+
+Emma:           85.6    B
+Logan:          91.2    A-
+Press the Enter key to continue
+```
+
+---
+
+1. 코드의 상단 부분은 using 명령문과 변수 선언목록으로 시작합니다.
+
+```csharp
+using System;
+
+// initialize variables - graded assignments
+int currentAssignments = 5;
+
+int sophia1 = 90;
+int sophia2 = 86;
+int sophia3 = 87;
+int sophia4 = 98;
+int sophia5 = 100;
+
+int andrew1 = 92;
+int andrew2 = 89;
+int andrew3 = 81;
+int andrew4 = 96;
+int andrew5 = 90;
+
+int emma1 = 90;
+int emma2 = 85;
+int emma3 = 87;
+int emma4 = 98;
+int emma5 = 68;
+
+int logan1 = 90;
+int logan2 = 95;
+int logan3 = 87;
+int logan4 = 88;
+int logan5 = 96;
+```
+
+1. 여기에 변수 선언 코드 행의 두 코드 그룹을 추가합니다. 첫 번째 그룹은 시헙 접수의 합계를 유지하는데 사용되는 정수입니다. 두 번째 그룹은 계산된 평균 점수를 유지하는데 사용되는 소수입니다. 정수 계산은 계산된 값의 소수 부분을 반올림하기 때문에 _여기에서 코드는 소수점을 사용합니다_.
+
+```csharp
+sophiaSum = sophia1 + sophia2 + sophia3 + sophia4 + sophia5;
+andrewSum = andrew1 + andrew2 + andrew3 + andrew4 + andrew5;
+emmaSum = emma1 + emma2 + emma3 + emma4 + emma5;
+loganSum = logan1 + logan2 + logan3 + logan4 + logan5;
+
+sophiaScore = (decimal)sophiaSum / currentAssignments;
+andrewScore = (decimal)andrewSum / currentAssignments;
+emmaScore = (decimal)emmaSum / currentAssignments;
+loganScore = (decimal)loganSum / currentAssignments;
+```
+
+1. 방정식의 첫 번째 그룹은 각 학생의 과제 점수 합계를 계산하는데 사용합니다. 방정식의 두 번째 그룹은 평균 점수를 계산합니다. 나누기가 분수 구성 요소를 유지하도록 하기 위해 분자가 소수로 변환됩니다.
+
+```csharp
+Console.WriteLine("Student\t\tGrade\n");
+Console.WriteLine("Sophia:\t\t" + sophiaScore + "\tA");
+Console.WriteLine("Andrew:\t\t" + andrewScore + "\tB");
+Console.WriteLine("Emma:\t\t" + emmaScore + "\tB");
+Console.WriteLine("Logan:\t\t" + loganScore + "\tA");
+
+Console.WriteLine("Press the Enter key to continue");
+Console.ReadLine();
+```
+
+1. Console.ReadLine(); 은 응용 프로그램 사용자가 출력을 검토할 수 있도록 응용프로그램을 일시 중지합니다.
+
+---
+
+# 과제 점수 배열만들기
+
+1. Program.cs 파일의 맨 위로 스크롤합니다.
+2. 변수 선언에 사용된 줄 아래에 빈 코드 줄을 만듭니다. currentAssignments
+3. 새 코드 행에서 Sophia 의 과제 점수에서 사용할 정수 배열을 만들려면 다음 코드를 입력합니다.
+
+```csharp
+int[] sophiaScore = new int[5];
+```
+
+<aside>
+💡 이 코드는 new 연산자를 사용하여 배열의 새 인스턴스를 만들고 있음을 지정합니다. in대괄호 세트는 int[]컴파일러에게 sophiaScores 정수 배열이 될 것임을 알려주는 반면, in 의 대괄호 세트는 int[5]배열의 요소 수를 지정하는 데 사용합니다.
+
+</aside>
+
+1. 선언 내에서 sophia의 할당 점수를 지정하려면 sophiaScores 다음과 같이 선언을 업데이트합니다.
+
+```csharp
+int[] sophiaScores = new int[] {90,86,87,98,100};
+//요소 수를 지정하는 데 사용된 5가 제거되고 대신 채점된 과제 5개의 점수가 포함되었습니다.
+```
+
+1. Sophia 의 개별 점수를 포함하는 변수를 선언하는 코드 줄을 삭제합니다.
+
+```csharp
+int sophia1 = 90;
+int sophia2 = 86;
+int sophia3 = 87;
+int sophia4 = 98;
+int sophia5 = 100;
+//앞으론 sophiaScores 배열을 사용하여 Sophia 의 점수에 엑세스 할 것이므로 이 변수그룹은 더이상  필요하지 않습니다.
+```
+
+1. Andrew 의 과제 점수에 사용할 정수 배열을 만들려면 다음 코드를 입력합니다.
+
+```csharp
+int[] andrewScores = new int[]{92, 89, 81 , 96, 90};
+```
+
+```csharp
+int[] emmaScores = new int[] { 90, 85, 87, 98, 68 };
+int[] loganScores = new int[] { 90, 95, 87, 88, 96 };
+```
+
+1. 나머지 학생들의 개별 점수를 포함하는 변수 코드줄도 삭제해줍니다. 이제 점수 배열이 선언되었고 사용할 준비가 되었습니다.
+
+## foreach 반복을 만들어 Sophia 의 성적을 계산합니다.
+
+```csharp
+int sophiaSum = 0;
+int andrewSum = 0;
+int emmaSum = 0;
+int loganSum = 0;
+
+decimal sophiaScore;
+decimal andrewScore;
+decimal emmaScore;
+decimal loganScore;
+
+sophiaSum = sophia1 + sophia2 + sophia3 + sophia4 + sophia5;
+andrewSum = andrew1 + andrew2 + andrew3 + andrew4 + andrew5;
+emmaSum = emma1 + emma2 + emma3 + emma4 + emma5;
+loganSum = logan1 + logan2 + logan3 + logan4 + logan5;
+
+sophiaScore = (decimal)sophiaSum / currentAssignments;
+andrewScore = (decimal)andrewSum / currentAssignments;
+emmaScore = (decimal)emmaSum / currentAssignments;
+loganScore = (decimal)loganSum / currentAssignments;
+```
+
+1. 변수를 선언하고 합계 및 평균 점수 값에 대한 계산을 수행하는 데 사용되는 코드 라인을 찾습니다.
+2. 합계 계산을 수행하는 데 사용되는 코드 줄을 삭제합니다.
+3. Andrew, Emma 및 Logan에 대해 선언 `int`하고 변수를 지정하는 코드 줄을 삭제합니다 .`decimal`
+4. Andrew, Emma 및 Logan의 평균 점수를 계산하는 데 사용되는 코드 줄을 삭제합니다.
+5. 코드 맨 아래로 스크롤한 다음 Andrew, Emma 및 Logan의 성적을 보고하는 데 사용된 코드 줄을 삭제합니다.
+
+```csharp
+// initialize variables - graded assignments
+int currentAssignments = 5;
+
+int[] sophiaScores = new int[] { 90, 86, 87, 98, 100 };
+int[] andrewScores = new int[] { 92, 89, 81, 96, 90 };
+int[] emmaScores = new int[] { 90, 85, 87, 98, 68 };
+int[] loganScores = new int[] { 90, 95, 87, 88, 96 };
+
+int sophiaSum = 0;
+
+decimal sophiaScore;
+
+sophiaScore = (decimal)sophiaSum / currentAssignments;
+
+Console.WriteLine("Student\t\tGrade\n");
+Console.WriteLine("Sophia:\t\t" + sophiaScore + "\tA-");
+
+Console.WriteLine("Press the Enter key to continue");
+Console.ReadLine();
+```
+
+1. foreachSophia 의 점수를 반복하는데 사용할 명령문을 작성하려면 다음 코드를 작성하세요
+
+```csharp
+foreach (int score in sophiaScores)
+{
+    // add the exam score to the sum
+    sophiaSum += score;
+}
+```
+
+1. 이제 코드는 다음과 유사해야합니다.
+
+```csharp
+// initialize variables - graded assignments
+int currentAssignments = 5;
+
+int[] sophiaScores = new int[] { 90, 86, 87, 98, 100 };
+int[] andrewScores = new int[] { 92, 89, 81, 96, 90 };
+int[] emmaScores = new int[] { 90, 85, 87, 98, 68 };
+int[] loganScores = new int[] { 90, 95, 87, 88, 96 };
+
+int sophiaSum = 0;
+
+decimal sophiaScore;
+
+foreach (int score in sophiaScores)
+{
+    // add the exam score to the sum
+    //sophiaSum = sophiaSum + score;
+    sophiaSum += score;
+}
+
+sophiaScore = (decimal)sophiaSum / currentAssignments;
+
+Console.WriteLine("Student\t\tGrade\n");
+Console.WriteLine("Sophia:\t\t" + sophiaScore + "\tA-");
+
+Console.WriteLine("Press the Enter key to continue");
+Console.ReadLine();
+```
+
+## 작업 확인
+
+1. Program.cs 파일의 변경사항 저장을 했는지 확인합니다.
+2. VSC 탐색기 패널에서 Starter 를 마우스 오른쪽 단추로 클릭해서 통합 터미널에서 열기를 선택합니다.
+3. 터미널 명령 프롬프트에 `dotnet build`. `dotdet run`
+4. 오류메시지가 뜨면 수정해야합니다.
+5. 코드가 다음을 출력했는지 확인합니다.

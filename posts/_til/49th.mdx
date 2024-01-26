@@ -1,0 +1,129 @@
+---
+title: Props 및 TypeScript 작업하기
+date: 2023-03-21
+description: TypeScript 제네릭타입 이해하기
+---
+
+### 학습목표
+
+- 제네릭 타입을 이용해서 프로퍼티를 받아 함수형 컴포넌트에서 이용하기
+
+<aside>
+💡 리액트에서 props는 언제나 객체형태이다.
+
+</aside>
+
+```tsx
+//목표 : props에 'items'나 'todos'프로퍼티를 받아서 각 항목을 매핑한 다음 목록 항목으로 넣는다.
+
+function Todos(props) {
+  return <ul>{}</ul>;
+}
+
+export default Todos;
+```
+
+![type00.png](/49/type00.png)
+
+- 마우스 커서를 올려보면 ‘props’가 선언되었지만 사용된 적이 없다고 나온다. === **“props를 사용하고있지 않고 있다는 경고 메시지” + “props 매개변수는 지금 any 타입이다 라는 메시지”**
+
+---
+
+<aside>
+💡 이는 여기에 타입을 명시적으로 지정하지 않았고, 그 때문에 타입스크립트로부터 어떠한 도움도 받지 못하고 있는 상태임을 알려주고 있습니다.
+
+</aside>
+
+```tsx
+function Todos(props: any) {
+  return <ul>{}</ul>;
+}
+
+export default Todos;
+
+//이렇게 바꿔주면 오류메시지는 사라지게 된다.
+```
+
+> 타입스크립트가 이 경고를 어디까지 할 수 있도록 그 범위를 정하는 곳 : ‘**tsconfig.json**’
+
+### 타입 정의
+
+<aside>
+💡 리액트에서 props는 언제나 객체형태이다
+
+</aside>
+
+```tsx
+//
+function Todos(props: { items: string[]; childern }) {
+  return <ul>{}</ul>;
+}
+
+export default Todos;
+```
+
+⇒ 이렇게 childern 처럼 수많은 값들을 수동으로 하나하나 추가해 줄 수 없으니 제네릭 타입을 이용해서 함수형 컴포넌트를 제네릭 함수로 변환해서 이용한다.
+
+```tsx
+import React from 'react';
+const Todos: React.FC = (props) => {
+  return <ul>{}</ul>;
+};
+
+export default Todos;
+```
+
+![type11.png](/49/type11.png)
+
+\*FC : Functional Component (함수형 컴포넌트) JSX 코드에 props 를 넣고 점을 찍으면 자동완성 창에 childern 프로퍼티가 나타난다. React.RC 라는 타입표기를 추가함으로서 이 함수의 첫번째 인자로 받는 값이 props 라는 것을 이해하게 된다.
+
+### Q. 왜 React.FC 함수형 컴포넌트를 쓰면 첫번째 인자값으로 props를 받을 수 있는걸까?
+
+![react.png](/49/react.png)
+
+![type22.png](/49/type22.png)
+
+```tsx
+import React from 'react';
+
+const Todos: React.FC<{ items: string[] }> = (props) => {
+  return <ul>{}</ul>;
+};
+
+export default Todos;
+```
+
+### 홑화살표의 추가 `<>`
+
+> React.FC 는 ‘이미’ 제네릭 타입이다. 이미 내부에서 홑화살괄호를 사용해 정의되었기 때문에 이 코드에서 다시 홑화살괄호를 추가한다음 T같은 식별자를 넣어 _새로운 제네릭 타입을 만드는게 아니라, 내부적으로 사용되는 제네릭 타입에 구체적인 값을 집어넣는다_.
+
+<aside>
+💡 해당 값의 타입을 추론하게 두는 것이 아니라 함수를 정의하고 타입스크립트에게 이 함수를 내부적으로 어떻게 처리하는지 알려주고 싶기 때문에  ‘FC’ 라는 제네릭 타입의 용도에 맞게 사용할 하나의 타입을 명시적으로 설정하는 것이다.
+
+</aside>
+
+1. React.FC 타입을 \*\*함수형 컴포넌트 상수 옆에 사용한다.
+2. 홑화살괄호를 붙인다
+3. 그 괄호사이에 필요한 형태(_프로퍼티 객체의 타입_)의 props를 정의한다.
+
+\*\*함수형 컴포넌트 상수 : 변하지 않는 값을 의미로 아래의 경우에는 ‘Todos’ 이다.
+
+```tsx
+import React from 'react';
+
+const Todos: React.FC<{ items: string[] }> = (props) => {
+  return (
+    <ul>
+      {props.items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+};
+
+export default Todos;
+```
+
+### ChatGPT 의 예시
+
+예를 들어, 다음과 같은 인터페이스를 사용하여 컴포넌트의 props를 정의할 수 있습니다.
